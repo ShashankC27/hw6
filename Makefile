@@ -1,6 +1,6 @@
 # Makefile for SystemVerilog Lab1
-RTL= ./my_memhw5.v
-SVTB = ./my_mem_tbhw5.sv
+RTL= ./my_memhw6.v
+SVTB = ./my_mem_tbhw6.sv
 SEED = +ntb_random_seed_automatic
 
 default: test 
