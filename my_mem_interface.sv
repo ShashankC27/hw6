@@ -1,8 +1,33 @@
-interface my_mem_interface;
-  input logic clk;
-  input logic write;
-  input logic read;
-  input logic [7:0] data_in;
-  input logic [15:0] address;
-  output logic [8:0] data_out;
+interface my_mem_interface(input clk);
+   logic write;
+   logic read;
+   logic [7:0] data_in;
+   logic [15:0] address;
+   logic [8:0] data_out;
+   int error_count;
+
+   modport mp (input clk, write, read, data_in, address,
+   output data_out 
+   );
+
+   always @(posedge clk) begin
+      if (write && read) begin
+            error_count++;
+            $display("Both write and read are high and total count =%d",checker_error);
+        end 
+   end
+ 
+   function automatic logic [8:0] calc_even_parity(logic [7:0] number);
+      integer count=0,i=0,length=8;
+      do begin
+         if(number[i] == 1) begin
+            count++;
+         end
+         i++;
+      end while(i<length);
+      if(count%2 == 0) begin
+         return {1'b0,mem_inf.data_in};
+      end
+      return {1'b1,mem_inf.data_in};
+   endfunction
 endinterface

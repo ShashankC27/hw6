@@ -2,7 +2,7 @@
 
 `include "my_mem_interface.sv"
 
-module my_memhw6(input my_mem_interface mem_inf);
+module my_memhw6(my_mem_interface mem_inf);
 
    // Declare a 9-bit associative array using the logic data type
   bit [8:0] mem_array [int];
@@ -18,19 +18,5 @@ module my_memhw6(input my_mem_interface mem_inf);
         //$display("called fead address %h %h",address,data_out);
       end
    end
-
-   function automatic logic [8:0] calc_even_parity(logic [7:0] number);
-      integer count=0,i=0,length=8;
-      do begin
-         if(number[i] == 1) begin
-            count++;
-         end
-         i++;
-      end while(i<length);
-      if(count%2 == 0) begin
-         return {1'b0,mem_inf.data_in};
-      end
-      return {1'b1,mem_inf.data_in};
-   endfunction
    
 endmodule

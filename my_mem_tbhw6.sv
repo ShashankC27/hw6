@@ -1,16 +1,14 @@
 `default_nettype none
+`include "my_mem_interface.sv"
 
 
 module my_mem_tbhw6;
     logic clk;
-    reg write;
-    reg read;
-    reg [7:0] data_in;
-    wire [8:0] data_out;
-    reg [15:0] address;
-    integer i,size=6,error_count=0,j=0,checker_error=0;
+    integer i,size=6,j=0;
 
+    my_mem_interface mem_inf(clk);
     //declared an structure with the mentioned features that are add,data,expected arra adn actual data
+    
     typedef struct {
         bit [15:0] Address_to_rw;
         bit [7:0] Data_to_Write;
@@ -19,12 +17,13 @@ module my_mem_tbhw6;
     } memorystructure;
 
     memorystructure memarray[];
-    my_memhw5 tb(.clk(clk),.write(write),.read(read),.data_in(data_in),.address(address),.data_out(data_out));
+    my_memhw5 tb(mem_inf.mp);
     
     initial begin
         clk=0;
-        write=0;
-        read=0;
+        mem_inf.error_count=0;
+        mem_inf.write=0;
+        mem_inf.read=0;
         memarray =new[6];//declaiung the array structure with name memarray
     end
 
@@ -79,8 +78,8 @@ module my_mem_tbhw6;
             j++;
         end
         else if(j==13) begin
-            write=1;
-            read=1;
+            mem_inf.write=1;
+            mem_inf.read=1;
             #10;
              // checking the checker function
             j++;
@@ -93,41 +92,28 @@ module my_mem_tbhw6;
         //join_none
     end
 
-always @(negedge clk) begin
-    write_read_checker();
-end
-
-task write_read_checker();
-    //forever @(posedge clk) begin
-        if (write && read) begin
-            checker_error++;
-            $display("Both write and read are high and total count =%d",checker_error);
-        end 
-    //end
-endtask
-
 task writefunc(integer j);
-    data_in=memarray[j].Data_to_Write;//inserting data
-    address=memarray[j].Address_to_rw;// inserting address
+    mem_inf.data_in=memarray[j].Data_to_Write;//inserting data
+    mem_inf.address=memarray[j].Address_to_rw;// inserting address
     memarray[j].Expected_data_Read = {^memarray[j].Data_to_Write,memarray[j].Data_to_Write}; //inserting the expected array
-    write=1;//enabling write pin
+    mem_inf.write=1;//enabling write pin
     #10;
-    write=0;
+    mem_inf.write=0;
 endtask
 
 task readfunc(integer j);
-    address=memarray[j-7].Address_to_rw; // reading the address
-    read=1;//enabling read high
+    mem_inf.address=memarray[j-7].Address_to_rw; // reading the address
+    mem_inf.read=1;//enabling read high
     //clk=0;
     #10;
     //$display("and values are = %h",data_out);
     //$display("and values are = %h",data_read_expect_assoc[address]);
-    memarray[j-7].Actual_data_Read = data_out;//excluding the parity
+    memarray[j-7].Actual_data_Read = mem_inf.data_out;//excluding the parity
     if(memarray[j-7].Actual_data_Read != memarray[j-7].Expected_data_Read) begin
         $display("Obtained Error : Expected data %h and Actualdata received is %h",memarray[j-7].Expected_data_Read,memarray[j-7].Actual_data_Read);
-        error_count++;//if expected is not mathced to received data its error and added
+        mem_inf.error_count++;//if expected is not mathced to received data its error and added
         end
-    read=0;
+    mem_inf.read=0;
 endtask
 
 task lastdisplay();
@@ -136,8 +122,6 @@ task lastdisplay();
     for (i = 0; i < size; i++) begin
             $display("address  %h and elements =%h",memarray[i].Address_to_rw,memarray[i].Actual_data_Read);
     end
-    $display("Total checker errors are %d",checker_error);
-        //end
 endtask
 
 task shufflefun();//shuffling the structure
