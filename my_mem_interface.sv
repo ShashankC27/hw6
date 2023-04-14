@@ -26,8 +26,8 @@ interface my_mem_interface(input clk);
          i++;
       end while(i<length);
       if(count%2 == 0) begin
-         return {1'b0,mem_inf.data_in};
+         return {1'b0,data_in};
       end
-      return {1'b1,mem_inf.data_in};
+      return {1'b1,data_in};
    endfunction
 endinterface
