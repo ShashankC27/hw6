@@ -1,6 +1,6 @@
 `default_nettype none
 
-//`include "my_mem_interface.sv"
+`include "my_mem_interface.sv"
 
 module my_memhw6(my_mem_interface mem_inf);
 
