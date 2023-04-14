@@ -1,4 +1,4 @@
-interface my_mem_interface(input clk);
+interface my_mem_interface(input logic clk);
    logic write;
    logic read;
    logic [7:0] data_in;
