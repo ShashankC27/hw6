@@ -1,5 +1,5 @@
 `default_nettype none
-`include "my_mem_interface.sv"
+//`include "my_mem_interface.sv"
 
 
 module my_mem_tbhw6;
