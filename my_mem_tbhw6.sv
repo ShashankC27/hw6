@@ -18,7 +18,7 @@ module my_mem_tbhw6;
 
     memorystructure memarray[];
     memorystructure memarray_queue[$];
-    //my_memhw5 tb(mem_inf.mp);
+    my_memhw5 tb(mem_inf.mp);
     
     initial begin
         clk=0;
