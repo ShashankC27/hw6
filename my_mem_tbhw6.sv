@@ -6,7 +6,7 @@ module my_mem_tbhw6;
     logic clk;
     integer i,size=6,j=0;
 
-    my_mem_interface mem_inf(clk);
+    my_mem_interface mem_inf();
     //declared an structure with the mentioned features that are add,data,expected arra adn actual data
     
     typedef struct {
