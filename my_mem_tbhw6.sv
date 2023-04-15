@@ -110,7 +110,7 @@ task readfunc(integer j);
     //$display("and values are = %h",data_out);
     //$display("and values are = %h",data_read_expect_assoc[address]);
     memarray[j-7].Actual_data_Read = mem_inf.data_out;//excluding the parity
-    memarray_queue.data_out[i]=mem_in.data_out;
+    memarray_queue.data_out[j-7]=mem_in.data_out;
     if(memarray[j-7].Actual_data_Read != memarray[j-7].Expected_data_Read) begin
         $display("Obtained Error : Expected data %h and Actualdata received is %h",memarray[j-7].Expected_data_Read,memarray[j-7].Actual_data_Read);
         mem_inf.error_count++;//if expected is not mathced to received data its error and added
