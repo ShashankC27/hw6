@@ -1,5 +1,5 @@
 # Makefile for SystemVerilog Lab1
-RTL= ./my_memhw6.v ./my_mem_interface.sv
+RTL= ./my_memhw6.sv ./my_mem_interface.sv
 SVTB = ./my_mem_tbhw6.sv
 SEED = +ntb_random_seed_automatic
 
