@@ -9,7 +9,7 @@ module my_memhw6();
   my_mem_interface mem_in();
    always @(posedge mem_in.clk) begin
       if (mem_in.write) begin
-        mem_array[mem_in.address] = calc_even_parity(.number(mem_in.data_in));
+        mem_array[mem_in.address] = mem_in.calc_even_parity(.number(mem_in.data_in));
       //$display("%b Comparing data %b",{^data_in, data_in},calc_even_parity(data_in));
       //$display("%h Comparing data %h",{^data_in, data_in},calc_even_parity(data_in));
       end

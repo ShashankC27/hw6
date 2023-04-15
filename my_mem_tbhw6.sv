@@ -29,7 +29,7 @@ module my_mem_tbhw6;
 
     initial begin
     $dumpfile ("my_mem_tbhw5.vcd");
-    $dumpvars (0,my_mem_tbhw5);
+    $dumpvars ();
     $vcdpluson;
     $vcdplusmemon;
     //fork
@@ -117,7 +117,7 @@ task readfunc(integer j);
 endtask
 
 task lastdisplay();
-    $display("Total Errors = %d and size is %d",error_count,size);
+    $display("Total Errors = %d and size is %d",mem_inf.error_count,size);
         //foreach (my_element;data_read_queue_arr) begin
     for (i = 0; i < size; i++) begin
             $display("address  %h and elements =%h",memarray[i].Address_to_rw,memarray[i].Actual_data_Read);

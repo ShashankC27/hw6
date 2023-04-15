@@ -14,7 +14,7 @@ interface my_mem_interface();
    always @(posedge clk) begin
       if (write && read) begin
             error_count++;
-            $display("Both write and read are high and total count =%d",checker_error);
+            $display("Both write and read are high and total count =%d",error_count);
         end 
    end
  
