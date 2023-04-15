@@ -2,11 +2,11 @@
 
 //`include "my_mem_interface.sv"
 
-module my_memhw6(my_mem_interface mem_in);
+module my_memhw6();
 
    // Declare a 9-bit associative array using the logic data type
   bit [8:0] mem_array [int];
-  
+  my_mem_interface mem_in();
    always @(posedge mem_in.clk) begin
       if (mem_in.write) begin
         mem_array[mem_in.address] = calc_even_parity(.number(mem_in.data_in));
