@@ -1,76 +1,51 @@
+# Makefile for SystemVerilog Lab1
+RTL= ./my_memhw6.v ./my_mem_interface.sv
+SVTB = ./my_mem_tbhw6.sv
+SEED = +ntb_random_seed_automatic
 
-VCS_FILES = my_mem_tbhw6.sv my_memhw6.v 
-QUESTA_FILES =my_mem_tbhw6.sv my_memhw6.v
-TOPLEVEL = my_mem_tbhw6
+default: test 
 
-default: vcs 
+test: compile run
 
-help:
-	@echo "Make targets:"
-	@echo "> make vcs          	# Compile and run with VCS"
-	@echo "> make vcs_encrypt	# Encrypt config_reg_buggy.sv with VCS"
-	@echo "> make questa_gui   	# Compile and run with Questa in GUI mode"
-	@echo "> make questa_batch 	# Compile and run with Questa in batch mode"
-	@echo "> make questa_encrypt	# Encrypt config_reg_buggy.sv with Questa"
-	@echo "> make clean        	# Clean up all intermediate files"
-	@echo "> make tar          	# Create a tar file for the current directory"
-	@echo "> make help         	# This message"
+run:
+	./simv -l simv.log +ntb_random_seed_automatic
 
-#############################################################################
-# VCS section
-VCS_FLAGS = -sverilog -debug -full64
-vcs:	simv
-	simv -l sim.log
-
-simv:   ${VCS_FILES}
-	vcs ${VCS_FLAGS} -l comp.log ${VCS_FILES}
-
-waves:	${VCS_FILES}
-	vcs -sverilog -R -gui -debug_all -full64 -l simv.log ${VCS_FILES}
-
-vcs_encrypt: config_reg_buggy.sv
-	@rm config_reg_buggy_vcs.svp
-	@rm config_reg_buggy.svp
-	vcs +protect config_reg_buggy.sv
-	@mv config_reg_buggy.svp config_reg_buggy_vcs.svp
+compile:
+	vcs -l vcs.log -sverilog -debug_all -full64 $(SVTB) $(RTL)
 
 dve:
 	dve -vpd vcdplus.vpd &
 
+debug:
+	./simv -l simv.log -gui -tbug +ntb_random_seed=$(SEED)
 
-#############################################################################
-# Questa section
-questa_gui: ${QUESTA_FILES} clean
-	vlib work
-	vmap work work
-	vlog ${QUESTA_FILES}
-	vsim -novopt -do "view wave;do wave.do;run -all" ${TOPLEVEL}
-
-questa_batch: ${QUESTA_FILES} clean
-	vlib work
-	vmap work work
-	vlog ${QUESTA_FILES}
-	vsim -c -novopt -do "run -all" ${TOPLEVEL}
-
-questa_encrypt: config_reg_buggy.sv
-	@rm config_reg_buggy_questa.svp
-	@rm config_reg_buggy.svp
-	vencrypt config_reg_buggy.sv
-	@mv config_reg_buggy.svp config_reg_buggy_questa.svp
-
-#############################################################################
-# Housekeeping
-
-DIR = $(shell basename `pwd`)
-
-tar:	clean
-	cd ..; \
-	tar cvf ${DIR}.tar ${DIR}
+solution: clean
+	cp ../../solutions/lab1/*.sv .
 
 clean:
-	@# VCS Stuff
-	@rm -rf simv* csrc* *.log *.key vcdplus.vpd *.log .vcsmx_rebuild vc_hdrs.h
-	@# Questa stuff
-	@rm -rf work transcript vsim.wlf
-	@# Unix stuff
-	@rm -rf  *~ core.*
+	rm -rf simv* csrc* *.tmp *.vpd *.key *.log *hdrs.h
+
+nuke: clean
+	rm -rf *.v* *.sv include .*.lock .*.old DVE* *.tcl *.h
+	cp .orig/* .
+
+help:
+	@echo ==========================================================================
+	@echo  " 								       "
+	@echo  " USAGE: make target <SEED=xxx>                                         "
+	@echo  " 								       "
+	@echo  " ------------------------- Test TARGETS ------------------------------ "
+	@echo  " test       => Compile TB and DUT files, runs the simulation.          "
+	@echo  " compile    => Compile the TB and DUT.                                 "
+	@echo  " run        => Run the simulation.                                     "
+	@echo  " dve        => Run dve in post-processing mode                         "
+	@echo  " debug      => Runs simulation interactively with dve                  "
+	@echo  " clean      => Remove all intermediate simv and log files.             "
+	@echo  "                                                                       "
+	@echo  " -------------------- ADMINISTRATIVE TARGETS ------------------------- "
+	@echo  " help       => Displays this message.                                  "
+	@echo  " solution   => Copies all files from solutions directory               "
+	@echo  " nuke       => Erase all changes. Put all files back to original state "
+	@echo  "								       "
+	@echo ==========================================================================
+
