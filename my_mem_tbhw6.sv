@@ -6,7 +6,7 @@ module my_mem_tbhw6;
     logic clk;
     integer i,size=6,j=0;
 
-    my_mem_interface mem_inf();
+    my_mem_interface mem_inf(clk);
     //declared an structure with the mentioned features that are add,data,expected arra adn actual data
     
     typedef struct {
@@ -17,7 +17,7 @@ module my_mem_tbhw6;
     } memorystructure;
 
     memorystructure memarray[];
-    memorystructure memarray_queue[$];
+    //memorystructure memarray_queue[$];
     my_memhw5 tb(mem_inf.mp);
     
     initial begin

@@ -1,5 +1,5 @@
-interface my_mem_interface();
-   logic clk;
+interface my_mem_interface(input logic clk);
+   //logic clk;
    logic write;
    logic read;
    logic [7:0] data_in;
@@ -7,9 +7,8 @@ interface my_mem_interface();
    logic [8:0] data_out;
    int error_count;
 
-   //modport mp (input clk, write, read, data_in, address,
-   //output data_out 
-   //);
+   modport mp (input clk, write, read, data_in, address,output data_out 
+   );
 
    always @(posedge clk) begin
       if (write && read) begin
