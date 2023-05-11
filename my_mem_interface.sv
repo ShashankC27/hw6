@@ -7,7 +7,7 @@ interface my_mem_interface(input logic clk);
    logic [8:0] data_out;
    int error_count;
 
-   //modport des (input clk, write, read, data_in, address,output data_out);
+   modport des (input write, read, data_in, address,output data_out);
    modport tb (input data_out,output write, read, data_in, address );
 
    always @(posedge clk) begin
