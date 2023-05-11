@@ -7,7 +7,7 @@ module top;
     bit clk=0;
     always #5 clk=~clk;
     my_mem_interface inf(clk);
-    my_mem_tbhw6 acc_dut(inf.master);
+    my_memhw6 acc_dut(inf.master);
     my_mem_tbhw6 tb(inf.slave);
 
     initial begin
