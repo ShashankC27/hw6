@@ -87,7 +87,7 @@ task writefunc(integer j);
     mem_inf.address=memarray[j].Address_to_rw;// inserting address
     memarray[j].Expected_data_Read = {^memarray[j].Data_to_Write,memarray[j].Data_to_Write}; //inserting the expected array
     mem_inf.write=1;//enabling write pin
-    #10;
+    #5;
     mem_inf.write=0;
 endtask
 
