@@ -31,7 +31,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
 
     memorystructure memarray[];
     
-    my_memhw6 tb(mem_inf.master);
+    //my_memhw6 tb(mem_inf.master);
     
     initial begin
         mem_inf.error_count=0;
