@@ -10,7 +10,7 @@ module my_memhw6(my_mem_interface mem_in);
 
   //my_mem_interface mem_in();
    always @(mem_in.pclk) begin
-    //$display("In loop %d",mem_in.write);
+    $display("In loop %d",mem_in.write);
       if (mem_in.write) begin
         mem_array[mem_in.address] = mem_in.calc_even_parity(.number(mem_in.data_in));
         $display("Written value is %h",mem_in.data_in);
