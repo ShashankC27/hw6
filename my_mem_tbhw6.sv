@@ -16,7 +16,7 @@ module top;
 
 endmodule
 
-module my_mem_tbhw6(my_mem_interface inf);
+module my_mem_tbhw6(my_mem_interface mem_inf);
     integer i,size=6,j=0;
 
     //my_mem_interface mem_inf(clk);
