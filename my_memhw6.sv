@@ -2,7 +2,7 @@
 
 //`include "my_mem_interface.sv"
 
-module my_memhw6(my_mem_interface mem_in.tb);
+module my_memhw6(my_mem_interface.tb);
 
    // Declare a 9-bit associative array using the logic data type
   bit [8:0] mem_array [int];
