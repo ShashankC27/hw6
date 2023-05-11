@@ -11,6 +11,8 @@ module top;
     my_mem_tbhw6 tb(inf.slave);
 
     initial begin
+        //$dumpfile ("my_mem_tbhw5.vcd");
+        //$dumpvars ();
         $vcdpluson;
         $vcdplusmemon;
     end
@@ -20,9 +22,6 @@ endmodule
 module my_mem_tbhw6(my_mem_interface mem_inf);
     integer i,size=6,j=0;
 
-    //my_mem_interface mem_inf(clk);
-    //declared an structure with the mentioned features that are add,data,expected arra adn actual data
-    
     typedef struct {
         bit [15:0] Address_to_rw;
         bit [7:0] Data_to_Write;
@@ -31,7 +30,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
     } memorystructure;
 
     memorystructure memarray[];
-    //memorystructure memarray_queue[$];
+    
     my_memhw6 tb(mem_inf.master);
     
     initial begin
@@ -41,31 +40,11 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
         memarray =new[6];//declaiung the array structure with name memarray
     end
 
-    initial begin
-    $dumpfile ("my_mem_tbhw5.vcd");
-    $dumpvars ();
-    $vcdpluson;
-    $vcdplusmemon;
-    //fork
-    //write_read_checker();
-    //join_none
-    end
 
     integer Ecount=0; // declaring variable to count the errors obtained in testing
  
     initial begin
         i=0;
-        //for (i = 0; i < size; i++) begin 
-       /* do begin
-            write=1;
-            read=1;
-            $display("Error need to be dispalyed");
-            i++;
-            #5;
-            write=0;
-            read=0;
-        end while(i<size);
-        i=0;*/
         do begin
             memarray[i].Address_to_rw = $unsigned($urandom());
             memarray[i].Data_to_Write = $urandom();
@@ -80,16 +59,13 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
         if(j<size) begin
             writefunc(j); //calling the write func to write into the memory
             j++;
-            #5;
         end
         else if(j==6) begin
             shufflefun();//using this to shuffle the array after inserting the data and filling the array structure with address and data and expected array
-            j++;
         end
         else if(j>6 && j<13 ) begin
             readfunc(j); //callign the read func to read the memory data
             j++;
-            #5;
         end
         else if(j==13) begin
             mem_inf.write=1;
