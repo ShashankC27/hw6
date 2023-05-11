@@ -76,7 +76,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
 
     //always #5 write_read_checker();
 
-    always @(posedge mem_inf.pclk ) begin
+    always @(mem_inf.pclk ) begin
         if(j<size) begin
             writefunc(j); //calling the write func to write into the memory
             j++;
