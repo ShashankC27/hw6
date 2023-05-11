@@ -77,6 +77,7 @@ module my_mem_tbhw6;
         else if(j>6 && j<13 ) begin
             readfunc(j); //callign the read func to read the memory data
             j++;
+            #5;
         end
         else if(j==13) begin
             mem_inf.write=1;
