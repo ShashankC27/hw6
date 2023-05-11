@@ -1,4 +1,4 @@
-interface my_mem_interface(input logic clk);
+interface my_mem_interface(input bit clk);
    //logic clk;
    logic write;
    logic read;
@@ -7,8 +7,8 @@ interface my_mem_interface(input logic clk);
    logic [8:0] data_out;
    int error_count;
 
-   modport des (input write, read, data_in, address,output data_out);
-   //modport tb (input data_out,output write, read, data_in, address );
+   modport master (input write, read, data_in, address,output data_out);
+   modport slave (input data_out,output write, read, data_in, address );
 
    always @(posedge clk) begin
       if (write && read) begin
@@ -16,7 +16,10 @@ interface my_mem_interface(input logic clk);
             $display("Both write and read are high and total count =%d",error_count);
         end 
    end
- 
+   
+   clocking pclk @(posedge clk);
+   endclocking
+
    function automatic logic [8:0] calc_even_parity(logic [7:0] number);
       integer count=0,i=0,length=8;
       do begin

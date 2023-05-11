@@ -2,11 +2,24 @@
 //`include "my_mem_interface.sv"
 
 
-module my_mem_tbhw6;
-    logic clk;
+module top;
+    bit clk=0;
+    always #5 clk=~clk;
+    my_mem_interface inf(clk);
+    my_mem_tbhw6 acc_dut(inf.master);
+    my_mem_tbhw6 tb(inf.slave);
+
+    initial begin
+        $vcdpluson;
+        $vcdplusmemon;
+    end
+
+endmodule
+
+module my_mem_tbhw6(my_mem_interface inf);
     integer i,size=6,j=0;
 
-    my_mem_interface mem_inf(clk);
+    //my_mem_interface mem_inf(clk);
     //declared an structure with the mentioned features that are add,data,expected arra adn actual data
     
     typedef struct {
@@ -21,7 +34,6 @@ module my_mem_tbhw6;
     my_memhw6 tb(mem_inf.des);
     
     initial begin
-        clk=0;
         mem_inf.error_count=0;
         mem_inf.write=0;
         mem_inf.read=0;
@@ -39,8 +51,7 @@ module my_mem_tbhw6;
     end
 
     integer Ecount=0; // declaring variable to count the errors obtained in testing
-    always #5 clk = ~clk;
-    
+ 
     initial begin
         i=0;
         //for (i = 0; i < size; i++) begin 
@@ -64,7 +75,7 @@ module my_mem_tbhw6;
 
     //always #5 write_read_checker();
 
-    always @(posedge clk ) begin
+    always @(posedge inf.pclk ) begin
         if(j<size) begin
             writefunc(j); //calling the write func to write into the memory
             j++;
