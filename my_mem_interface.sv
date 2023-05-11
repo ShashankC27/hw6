@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 interface my_mem_interface(input bit clk);
    //logic clk;
    logic write;

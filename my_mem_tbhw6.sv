@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 `default_nettype none
 //`include "my_mem_interface.sv"
 
@@ -75,7 +76,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
 
     //always #5 write_read_checker();
 
-    always @(posedge inf.pclk ) begin
+    always @(posedge mem_inf.pclk ) begin
         if(j<size) begin
             writefunc(j); //calling the write func to write into the memory
             j++;
