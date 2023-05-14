@@ -12,10 +12,14 @@ interface my_mem_interface(input bit clk);
    modport slave (output write, read, data_in, address, input data_out );
 
    always @(posedge clk) begin
-      if (write && read) begin
+      //if (write && read) begin
+       //     error_count++;
+      //      $display("Both write and read are high and total count =%d",error_count);
+      //  end 
+      assert(! (write && read)) else begin
             error_count++;
             $display("Both write and read are high and total count =%d",error_count);
-        end 
+        end
    end
    
    clocking pclk @(posedge clk);
