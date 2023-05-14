@@ -62,6 +62,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
         end
         else if(j==6) begin
             shufflefun();//using this to shuffle the array after inserting the data and filling the array structure with address and data and expected array
+            j++;
         end
         else if(j>6 && j<13 ) begin
             readfunc(j); //callign the read func to read the memory data
