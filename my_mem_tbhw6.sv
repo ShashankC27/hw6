@@ -5,7 +5,7 @@
 
 module top;
     bit clk=0;
-    always #5 clk=~clk;
+    always #50 clk=~clk; // to get 10MHZ clock freq
     my_mem_interface inf(clk);
     my_memhw6 dut(inf.master);
     my_mem_tbhw6 tb(inf.slave);
