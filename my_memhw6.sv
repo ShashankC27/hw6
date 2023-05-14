@@ -16,7 +16,9 @@ module my_memhw6(my_mem_interface mem_in);
         mem_array[mem_in.address] = mem_in.calc_even_parity(.number(mem_in.data_in));
         $display("Written value is %h",mem_in.data_in);
       end
-      else if (mem_in.read) begin
+    end
+    always @(mem_in.read) begin
+      if (mem_in.read) begin
         mem_in.data_out =  mem_array[mem_in.address];
         $display("called fead address %h %h",mem_in.address,mem_in.data_out);
       end
