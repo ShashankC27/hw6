@@ -48,7 +48,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
         do begin
             memarray[i].Address_to_rw = $unsigned($urandom());
             memarray[i].Data_to_Write = $urandom();
-            //$display("VAlues feed are %h and %h",memarray[i].Address_to_rw ,memarray[i].Data_to_Write);
+            $display("Values randomized are %h and %h",memarray[i].Address_to_rw ,memarray[i].Data_to_Write);
             i++;
         end while(i<size);
     end
