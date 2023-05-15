@@ -97,7 +97,7 @@ task readfunc(integer j);
     mem_inf.address=memarray[j-7].Address_to_rw; // reading the address
     mem_inf.read=1;//enabling read high
     //clk=0;
-    @(mem_inf.data_out) begin
+    @(mem_inf.data_out) begin //irrespective of the delay at the design we can get.
     //$display("and values are = %h",data_out);
     //$display("and values are = %h",data_read_expect_assoc[address]);
     memarray[j-7].Actual_data_Read = mem_inf.data_out;//excluding the parity
