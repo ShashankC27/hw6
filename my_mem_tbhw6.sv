@@ -48,7 +48,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
         do begin
             memarray[i].Address_to_rw = $unsigned($urandom());
             memarray[i].Data_to_Write = $urandom();
-            $display("VAlues feed are %h and %h",memarray[i].Address_to_rw ,memarray[i].Data_to_Write);
+            //$display("VAlues feed are %h and %h",memarray[i].Address_to_rw ,memarray[i].Data_to_Write);
             i++;
         end while(i<size);
     end
@@ -84,7 +84,7 @@ module my_mem_tbhw6(my_mem_interface mem_inf);
     end
 
 task writefunc(integer j);
-    $display("In written function");
+    //$display("In written function");
     mem_inf.data_in=memarray[j].Data_to_Write;//inserting data
     mem_inf.address=memarray[j].Address_to_rw;// inserting address
     memarray[j].Expected_data_Read = {^memarray[j].Data_to_Write,memarray[j].Data_to_Write}; //inserting the expected array
