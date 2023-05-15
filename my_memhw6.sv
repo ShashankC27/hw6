@@ -19,8 +19,8 @@ module my_memhw6(my_mem_interface mem_in);
     end
     always @(mem_in.read) begin
       if (mem_in.read) begin
-        mem_in.data_out =  mem_array[mem_in.address];
-        //mem_in.data_out = #75ns mem_array[mem_in.address];
+        //mem_in.data_out =  mem_array[mem_in.address];
+        mem_in.data_out = #75ns mem_array[mem_in.address];
         //$display("called fead address %h %h",mem_in.address,mem_in.data_out);
       end
    end
