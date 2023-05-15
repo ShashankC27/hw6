@@ -97,7 +97,7 @@ task readfunc(integer j);
     mem_inf.address=memarray[j-7].Address_to_rw; // reading the address
     mem_inf.read=1;//enabling read high
     //clk=0;
-    #75;
+    @(mem_inf.read) begin
     //$display("and values are = %h",data_out);
     //$display("and values are = %h",data_read_expect_assoc[address]);
     memarray[j-7].Actual_data_Read = mem_inf.data_out;//excluding the parity
@@ -107,6 +107,7 @@ task readfunc(integer j);
         mem_inf.error_count++;//if expected is not mathced to received data its error and added
         end
     mem_inf.read=0;
+    end
 endtask
 
 task lastdisplay();
